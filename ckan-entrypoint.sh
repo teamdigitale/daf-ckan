@@ -110,7 +110,7 @@ harvesting () {
 
 # Main section
 
-# wait_for_services
+wait_for_services
 
 if [ ! -e "${config}" ]; then
   write_config
