@@ -1,0 +1,64 @@
+version: '2'
+
+services:
+
+  ckan:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    container_name: daf-ckan
+    image: teamdigitale/daf-ckan
+    environment:
+      CKAN_DEBUG: "true"
+      CKAN_SITE_URL: http://localhost:5000
+      CKAN_DB_HOST: db
+      CKAN_DB_PORT: 5432
+      CKAN_DB_USER: ckan
+      CKAN_SQLALCHEMY_URL: postgresql://ckan:ckan@db:5432/
+      CKAN_REDIS_HOST: redis
+      CKAN_REDIS_PORT: 6379
+      CKAN_SOLR_HOST: solr
+      CKAN_SOLR_PORT: 8983
+      CKAN_REDIS_URL: redis://redis:6379/
+      CKAN_SOLR_URL: http://solr:8983/solr/ckan
+      CKAN_LDAP_URI: ldap://my-ldap-srv-host:389
+      CKAN_LDAP_AUTH_DN: uid=admin,cn=users,cn=accounts,dc=my,dc=domain
+      CKAN_LDAP_AUTH_PASSWORD: my-auth-dn-ldap-password
+      CKAN_LDAP_BASE_DN: cn=users,cn=accounts,dc=my,dc=domain
+    stdin_open: true
+    tty: true
+    ports:
+      - 5000:5000/tcp
+    command:
+      - paster
+      - serve
+      - /etc/ckan/default/ckan.ini
+    depends_on:
+      - db
+      - redis
+      - solr
+
+  solr:
+    image: teamdigitale/daf-ckan-solr:latest
+    container_name: daf-ckan-solr
+    stdin_open: true
+    tty: true
+
+  redis:
+    image: redis:5.0.5
+    container_name: daf-ckan-redis
+    stdin_open: true
+    tty: true
+
+  db:
+    image: geosolutionsit/dati-ckan-docker:postgresql-10.1
+    container_name: daf-ckan-db
+    environment:
+      POSTGRES_USER: ckan
+      POSTGRES_PASSWORD: ckan
+      POSTGRES_DB: ckan
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432/tcp
+    stdin_open: true
+    tty: true

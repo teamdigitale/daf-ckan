@@ -4,7 +4,7 @@ CKAN is a powerful data management system that makes data accessible – by prov
 
 ## What is the Data & Analytics Framework (DAF)?
 
-More informations about the DAF can be found on the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
+More informations about the DAF -a.k.a. Piattaforma Digitale Nazionale Dati (PDND)- can be found on the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
 
 ## Tools references
 
@@ -14,13 +14,44 @@ The tools used in this repository are
 
 ## CKAN components
 
-* **CKAN** the tool included in this repository
+* **CKAN** version 2.6.2. What's inside this repository.
 
-* **Solr** (packeged for CKAN and with some customizations), available [here](https://github.com/teamdigitale/daf-ckan-solr)
+* **Solr** version 6.2, packaged for CKAN and with some customizations. Solr code is available [here](https://github.com/teamdigitale/daf-ckan-solr).
 
-* **PostgreSQL** version 10.1 is certified to work with the current CKAN distribution. PostgreSQL is pulled in as a dependency from the official Docker repositories (see Docker documentation below).
+* **PostgreSQL** version 10.1, modified for CKAN. The container is available [here](https://hub.docker.com/r/geosolutionsit/dati-ckan-docker/tags). The image is tagged `postgresql-10.1`.
 
-* **Redis** version XX.XX is certified to work with the current CKAN distribution. Redies is automatically pulled in as a dependency from the official Docker repositories (see Docker documentation below).
+* **Redis** version 5.0.5. Redis is automatically pulled in as a dependency from its [official Docker repository](https://hub.docker.com/_/redis).
+
+## How to build and test CKAN
+
+In this repository, CKAN and its related tools are redistributed as a set of Docker containers interacting with one each other.
+
+The `dockerfile` and the `docker-compose.yaml` files are in the root of this repository.
+
+To build the local test environment (build the CKAN container and download dependencies) run:
+
+```shell
+docker-compose up -d
+```
+
+>NOTE: the `docker-compose.yaml` file sets different environment variables that could be used to adapt and customized many platform functionalities.
+
+Then, access the CKAN GUI in a browser at `http://localhost:5000`.
+
+The following default credentials can be used to access the portal
+
+```
+Username: ckanadmin
+Password: ckanpassword
+```
+
+> NOTE: Credentials should be changed after the first login.
+
+To bring down the test environment and remove the containers use
+
+```shell
+docker-compose down
+```
 
 ## CKAN 2.6.2 extensions reference
 
@@ -40,35 +71,6 @@ The tools used in this repository are
 12  "dcatapit_config"
 13  "dcatapit_harvester"
 ```
-
-## How to build and test CKAN
-
-In this repository, CKAN and its related tools are redistributed as a set of Docker containers interacting with one each other.
-
-The tools needed to build the `CKAN container` and a working local test environment are provided in the `docker` folder of this repository. The commands below should be run from such folder.
-
-Build the local test environment (build the CKAN container and download dependencies)
-
-```shell
-docker-compose up -d
-```
-
-Load "ckan vocabulary" in ckan container:
-
-```shell
-docker exec -it ckandcat /bin/bash -c ./ckan-vocabulary.sh
-```
-
-Access ckan server with browser at this link `http://localhost:5000`
-
-The following default credentials can be used to access the portal
-
-```
-User: ckanadmin
-Password: ckanpassword
-```
-
-> NOTE: Credentials should be changed after the first login.
 
 ## How to contribute
 
