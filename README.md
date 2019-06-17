@@ -14,13 +14,63 @@ The tools used in this repository are
 
 ## CKAN components
 
-* **CKAN** version 2.6.2. What's inside this repository.
+* **CKAN** version 2.6.4. What's inside this repository.
 
 * **Solr** version 6.2, packaged for CKAN and with some customizations. Solr code is available [here](https://github.com/teamdigitale/daf-ckan-solr).
 
 * **PostgreSQL** version 10.1, modified for CKAN. The container is available [here](https://hub.docker.com/r/geosolutionsit/dati-ckan-docker/tags). The image is tagged `postgresql-10.1`.
 
 * **Redis** version 5.0.5. Redis is automatically pulled in as a dependency from its [official Docker repository](https://hub.docker.com/_/redis).
+
+## Environment variables
+
+The following environment variables are mandatory and should be set in order to deploy CKAN. The `docker-compose.yaml` file in this repository applies some exemplar values, to be used for demos and local tests.
+
+### General variables
+
+* CKAN_DEBUG *(format: {"true"|"false"})* - Whether to activate or not the debug log messages. It should always be false for production environments.
+
+* CKAN_SITE_URL - The base URL of your CKAN deployment
+
+### Database variables
+
+* CKAN_DB_HOST - The host name of the CKAN PostgreSQL database.
+
+* CKAN_DB_PORT - The port of the CKAN PostgreSQL database.
+
+* CKAN_DB_USER - The user name of the CKAN PostgreSQL database.
+
+* PGPASSWORD - The password of the CKAN PostgreSQL database.
+
+* CKAN_SQLALCHEMY_URL *(format: {postgresql://{CKAN_DB_USER}:{PGPASSWORD}@{CKAN_DB_HOST}:{CKAN_DB_PORT}/})* - The connection string to your PostgreSQL database.
+
+### Redis variables
+
+* CKAN_REDIS_HOST - The host name of your Redis service.
+
+* CKAN_REDIS_PORT - The port of your Redis service.
+
+* CKAN_REDIS_URL *(format: redis://{CKAN_REDIS_HOST}:/{CKAN_REDIS_PORT})* - The full address of the Redis service.
+
+### Solr variables
+
+* CKAN_SOLR_HOST - The host name of the Solr service.
+
+* CKAN_SOLR_PORT - The port of the Solr service.
+
+* CKAN_SOLR_URL *(format: http://{CKAN_SOLR_HOST}:{CKAN_SOLR_PORT}/solr/ckan)* - The full URL of the Solr service.
+
+### LDAP/FreeIPA variables
+
+This version of CKAN is already configured to work with a FreeIPA server. The following parameters should be customized in order to make the integration work.
+
+* CKAN_LDAP_URI *(format: ldap://{LDAP_SERVER_HOST_NAME}:{LDAP_SERVER_PORT})* - the full URI of the LDAP service.
+
+* CKAN_LDAP_AUTH_DN *(format: uid={LDAP_ADMIN_USER},cn=users,cn=accounts,dc={YOUR},dc={DOMAIN})* - The LDAP admin user allowed to bind to the domain.
+
+* CKAN_LDAP_AUTH_PASSWORD - The password of the admin user, allowed to bind to the domain.
+
+* CKAN_LDAP_BASE_DN *(format: cn=users,cn=accounts,dc={YOUR},dc={DOMAIN})* - The CN of the LDAP users.
 
 ## How to build and test CKAN
 
@@ -53,7 +103,7 @@ To bring down the test environment and remove the containers use
 docker-compose down
 ```
 
-## CKAN 2.6.2 extensions reference
+## CKAN 2.6.4 extensions reference
 
 ```
 0   "stats"
