@@ -14,12 +14,13 @@ services:
       CKAN_DB_HOST: db
       CKAN_DB_PORT: 5432
       CKAN_DB_USER: ckan
+      PGPASSWORD: ckan
       CKAN_SQLALCHEMY_URL: postgresql://ckan:ckan@db:5432/
       CKAN_REDIS_HOST: redis
       CKAN_REDIS_PORT: 6379
+      CKAN_REDIS_URL: redis://redis:6379/
       CKAN_SOLR_HOST: solr
       CKAN_SOLR_PORT: 8983
-      CKAN_REDIS_URL: redis://redis:6379/
       CKAN_SOLR_URL: http://solr:8983/solr/ckan
       CKAN_LDAP_URI: ldap://my-ldap-srv-host:389
       CKAN_LDAP_AUTH_DN: uid=admin,cn=users,cn=accounts,dc=my,dc=domain

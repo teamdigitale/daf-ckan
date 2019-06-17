@@ -5,7 +5,7 @@ set -e
 config="${CKAN_CONFIG}/ckan.ini"
 
 wait_for_services () {
-  until !</dev/tcp/"${CKAN_DB_HOST}"/"${CKAN_DB_PORT}"; do
+  until psql -h "${CKAN_DB_HOST}" -U "${CKAN_DB_USER}" -c '\q'; do
     echo "Postgres is not ready, yet. Trying again in two seconds."
     sleep 2
   done
@@ -45,6 +45,7 @@ write_config () {
                                                 "ckanext.ldap.organization.id = default_org" \
                                                 "ckanext.ldap.organization.role = admin" \
                                                 "sqlalchemy.url = ${CKAN_SQLALCHEMY_URL}" \
+                                                "ckan.site_url = ${CKAN_SITE_URL}" \
                                                 "ckan.auth.user_create_organizations = true" \
                                                 "ckanext.dcat.rdf.profiles = euro_dcat_ap it_dcat_ap" \
                                                 "ckanext.dcat.base_uri = ${CKAN_DCAT_BASE_URI}" \
