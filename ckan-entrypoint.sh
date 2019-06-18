@@ -109,6 +109,10 @@ harvesting () {
   nohup /harvest_fetch_and_gather.sh fetch_consumer  &
 }
 
+ckan_configure () {
+  /ckan-init.sh
+}
+
 # Main section
 
 wait_for_services
@@ -120,5 +124,7 @@ fi
 init_db
 
 harvesting
+
+ckan_configure
 
 exec "$@"

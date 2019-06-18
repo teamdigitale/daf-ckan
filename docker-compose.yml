@@ -11,6 +11,9 @@ services:
     environment:
       CKAN_DEBUG: "true"
       CKAN_SITE_URL: http://localhost:5000
+      CKAN_ADMIN_EMAIL: ckanadmin@mail.com
+      CKAN_ADMIN_USERNAME: ckanadmin
+      CKAN_ADMIN_PASSWORD: ckanpassword
       CKAN_DB_HOST: db
       CKAN_DB_PORT: 5432
       CKAN_DB_USER: ckan

@@ -30,7 +30,13 @@ The following environment variables are mandatory and should be set in order to 
 
 * CKAN_DEBUG *(format: {"true"|"false"})* - Whether to activate or not the debug log messages. It should always be false for production environments.
 
-* CKAN_SITE_URL - The base URL of your CKAN deployment
+* CKAN_SITE_URL - The base URL of your CKAN deployment.
+
+* CKAN_ADMIN_EMAIL - The email address of the local admin user.
+
+* CKAN_ADMIN_USERNAME - The user name of the local admin user.
+
+* CKAN_ADMIN_PASSWORD - The password of the local admin user.
 
 ### Database variables
 
