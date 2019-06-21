@@ -33,10 +33,6 @@ services:
     tty: true
     ports:
       - 5000:5000/tcp
-    command:
-      - paster
-      - serve
-      - /etc/ckan/default/ckan.ini
     depends_on:
       - db
       - redis

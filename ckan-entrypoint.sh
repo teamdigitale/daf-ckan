@@ -87,7 +87,7 @@ write_config () {
                                                 "class = logging.handlers.RotatingFileHandler" \
                                                 "formatter = generic" \
                                                 "level = NOTSET" \
-                                                "args = (\"/var/log/ckan/ckan.log\", \"a\", 20000000, 9)"
+                                                "args = (\"${CKAN_LOG_DIR}/ckan.log\", \"a\", 20000000, 9)"
 }
 
 init_db () {
@@ -105,12 +105,16 @@ init_db () {
 }
 
 harvesting () {
-  nohup /harvest_fetch_and_gather.sh gather_consumer &
-  nohup /harvest_fetch_and_gather.sh fetch_consumer  &
+  nohup /harvest_fetch_and_gather.sh gather_consumer &> "${CKAN_LOG_DIR}"/gather_consumer &
+  nohup /harvest_fetch_and_gather.sh fetch_consumer &> "${CKAN_LOG_DIR}"/fetch_consumer &
 }
 
 ckan_configure () {
-  /ckan-init.sh
+  nohup /ckan-init.sh &> "${CKAN_LOG_DIR}"/ckan_init &
+}
+
+ckan_serve () {
+  paster serve "${config}"
 }
 
 # Main section
@@ -126,5 +130,7 @@ init_db
 harvesting
 
 ckan_configure
+
+ckan_serve
 
 exec "$@"

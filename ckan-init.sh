@@ -1,5 +1,20 @@
 #!/bin/env bash
 
+# Wait until CKAN REST APIs are ready, then create groups from data/init/groups
+add_groups () {
+  until $(curl --output /dev/null --silent --head --fail "${CKAN_SITE_URL}"); do
+    echo "CKAN is not ready, yet. Trying again in two seconds."
+    sleep 2
+  done
+
+  apikey=$(psql -q -t -h ${CKAN_DB_HOST} -U ckan -d ${CKAN_DB_USER} -c "select apikey from public.user where name='${CKAN_ADMIN_USERNAME}';")
+
+  for file in "${CKAN_HOME}"/data/init/groups/*.json; do
+   echo "Creating group from file ${file}"
+   curl -i -H "X-CKAN-API-Key: ${apikey}" -XPOST -d @$file "${CKAN_SITE_URL}"/api/3/action/group_create
+  done
+}
+
 eurovoc_to_themes_mapping_file="${CKAN_HOME}/src/ckanext-dcatapit/examples/eurovoc_mapping.rdf"
 pato_to_eurovoc="${CKAN_HOME}/src/ckanext-dcatapit/examples/eurovoc.rdf"
 config="${CKAN_CONFIG}/ckan.ini"
@@ -25,5 +40,6 @@ wget "https://raw.githubusercontent.com/italia/daf-ontologie-vocabolari-controll
 paster --plugin=ckanext-dcatapit vocabulary load --filename "/tmp/Licenze.rdf" --name licenses --config "${config}"
 paster --plugin=ckanext-dcatapit vocabulary load --filename "$eurovoc_to_themes_mapping_file" --name subthemes --config "${config}" "$pato_to_eurovoc"
 
-APIKEY=$(psql -q -t -h ${CKAN_DB_HOST} -U ckan -d ${CKAN_DB_USER} -c "select apikey from public.user where name='${CKAN_ADMIN_USERNAME}';")
-${CKAN_HOME}/data/init/create.sh $APIKEY localhost:5000
+add_groups
+
+echo -e "\nCKAN init completed successfully"

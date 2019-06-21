@@ -15,6 +15,6 @@ process="$1"
 
 while true
 do  
-   paster --plugin=ckanext-harvest harvester "$process" -c "${config}" >& "${CKAN_LOG_DIR}/${process}.out"
+   paster --plugin=ckanext-harvest harvester "$process" -c "${config}"
    sleep 5
 done
