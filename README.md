@@ -1,10 +1,10 @@
-# Data & Analytics Framework (DAF) CKAN
+# CKAN for Piattaforma Digitale Nazionale Dati (PDND) - previously DAF
 
-CKAN is a powerful data management system that makes data accessible – by providing tools to streamline publishing, sharing, finding and using data. CKAN is a key component consumed by the DAF project.
+CKAN is a powerful data management system that makes data accessible – by providing tools to streamline publishing, sharing, finding and using data. CKAN is a key component consumed by the PDND project.
 
-## What is the Data & Analytics Framework (DAF)?
+## What is PDND?
 
-More informations about the DAF -a.k.a. Piattaforma Digitale Nazionale Dati (PDND)- can be found on the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
+More informations about the PDND can be found at the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
 
 ## Tools references
 
@@ -132,4 +132,4 @@ docker-compose down
 
 Contributions are welcome. Feel free to open issues and submit a pull request at any time!
 
-This is a temporary repository, still maintained because consumed by the production DAF environment. Anyway, an ongoing development work is moving on [here](https://github.com/italia/dati-ckan-docker).
+This repository is very specific to the PDND project that could be used as an example. Meanwhile, the community is working on an generic, [redistributable version](https://github.com/italia/dati-ckan-docker).
