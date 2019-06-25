@@ -1,10 +1,12 @@
-# CKAN for Piattaforma Digitale Nazionale Dati (PDND) - previously DAF
+# CKAN for Piattaforma Digitale Nazionale Dati (PDND), previously DAF
 
 CKAN is a powerful data management system that makes data accessible – by providing tools to streamline publishing, sharing, finding and using data. CKAN is a key component consumed by the PDND project.
 
-## What is PDND?
+## What is the PDND (previously DAF)?
 
-More informations about the PDND can be found at the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
+PDND stays for "Piattaforma Digitale Nazionale Dati" (the Italian Digital Data Platform), previously known as Data & Analytics Framework (DAF).
+
+You can find more informations about the PDND on the official [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm).
 
 ## Tools references
 
@@ -24,7 +26,7 @@ The tools used in this repository are
 
 ## Environment variables
 
-The following environment variables are mandatory and should be set in order to deploy CKAN. The `docker-compose.yaml` file in this repository applies some exemplar values, to be used for demos and local tests.
+Contributions are welcome. Feel free to [open issues](./issues) and submit a [pull request](./pulls) at any time, but please read [our handbook](https://github.com/teamdigitale/daf-handbook) first.
 
 ### General variables
 
@@ -133,3 +135,13 @@ docker-compose down
 Contributions are welcome. Feel free to open issues and submit a pull request at any time!
 
 This repository is very specific to the PDND project that could be used as an example. Meanwhile, the community is working on an generic, [redistributable version](https://github.com/italia/dati-ckan-docker).
+
+## License
+
+Copyright (c) 2019 Presidenza del Consiglio dei Ministri
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
