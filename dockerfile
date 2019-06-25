@@ -1,24 +1,23 @@
-#ckan + ckanext-harvest + ckanext-dcat + ckanext-dcatapit
 FROM centos:7
 
-# set vars
+# Set vars
 ENV CKAN_HOME /usr/lib/ckan/default
 ENV CKAN_CONFIG /etc/ckan/default
 ENV CKAN_LOG_DIR /var/log/ckan
 ENV CKAN_STORAGE_PATH /var/lib/ckan
 ENV CKAN_SITE_URL http://localhost:5000
 
-# install requirements
+# Install requirements
 RUN yum -y install epel-release
 RUN yum -y install postgresql postgresql-contrib postgresql-devel postgis
 RUN yum -y install gcc gcc-c++ make git gdal geos
 RUN yum -y install libxml2 libxml2-devel libxslt libxslt-devel
 RUN yum -y install gdal-python python-pip python-imaging python-virtualenv \
-            libxml2-python libxslt-python python-lxml \
-            python-devel python-babel \
-            python-pylons python-repoze-who python-repoze-who-plugins-sa \
-            python-repoze-who-testutil python-repoze-who-friendlyform \
-            python-tempita python-zope-interface policycoreutils-python
+                   libxml2-python libxslt-python python-lxml \
+                   python-devel python-babel \
+                   python-pylons python-repoze-who python-repoze-who-plugins-sa \
+                   python-repoze-who-testutil python-repoze-who-friendlyform \
+                   python-tempita python-zope-interface policycoreutils-python
 RUN yum -y install openldap-devel
 RUN yum -y install gettext
 RUN yum -y install wget
@@ -32,30 +31,44 @@ RUN wget http://download.redis.io/redis-stable.tar.gz \
     && popd \
     && rm -rf ./redis-stable*
 
-# upgrade python pip
+# Upgrade python pip
 RUN pip install --upgrade pip
 
-# setup ckan Directory
+# Setup ckan Directory
 RUN mkdir -p $CKAN_HOME
 RUN mkdir -p $CKAN_LOG_DIR
 RUN mkdir -p $CKAN_CONFIG
 RUN mkdir -p $CKAN_STORAGE_PATH
 
-# add 'ckan' user
-RUN useradd -m -s /sbin/nologin -d "${CKAN_HOME}" -c "CKAN User" ckan
-
-# add CKAN source code
+# Add CKAN source code
 RUN mkdir -p $CKAN_HOME/src/ckan/
 ADD ./ckan $CKAN_HOME/src/ckan/
 
-# temporary fix for dependencies
+# Add ckan user
+RUN useradd --home "${CKAN_HOME}" --shell /bin/bash ckan
+
+# Set permissions to CKAN folders
+RUN chown -R ckan:ckan $CKAN_HOME
+RUN chown -R ckan:ckan $CKAN_LOG_DIR
+RUN chown -R ckan:ckan $CKAN_CONFIG
+RUN chown -R ckan:ckan $CKAN_STORAGE_PATH
+
+# Temporary fix for dependencies
 RUN pip install pytz diagnostics
 
-# install requirements
+# Remove old versions of python packages installed through distutils
+RUN rm -rf /usr/bin/markdown*
+RUN rm -rf /usr/lib/python2.7/site-packages/markdown*
+RUN rm -rf /usr/lib/python2.7/site-packages/webhelpers/markdown*
+RUN rm -rf /usr/lib/python2.7/site-packages/Markdown-2.4.1-py2.7.egg-info
+RUN rm -rf /usr/share/doc/python2-markdown*
+RUN rm -rf /usr/share/licenses/python2-markdown*
+
+# Install python packages requirements
 RUN pip install "setuptools==36.1"
 RUN pip install -r "${CKAN_HOME}/src/ckan/requirements.txt"
 
-# install CKAN
+# Install CKAN
 RUN pip install -e "${CKAN_HOME}/src/ckan" #egg=ckan
 
 # DCATAPIT theme to group mapping file
@@ -80,36 +93,25 @@ RUN pip install -e $CKAN_HOME/src/ckanext-harvest/
 RUN pip install -r $CKAN_HOME/src/ckanext-harvest/pip-requirements.txt
 RUN pip install -r $CKAN_HOME/src/ckanext-harvest/dev-requirements.txt
 
-## Install ckanext-dcat
+# Install ckanext-dcat
 RUN mkdir $CKAN_HOME/src/ckanext-dcat/
 ADD ./ckanext-dcat/ $CKAN_HOME/src/ckanext-dcat/
 RUN pip install -e $CKAN_HOME/src/ckanext-dcat/
 RUN pip install -r $CKAN_HOME/src/ckanext-dcat/requirements.txt
 
-## Install ckanext-dcatapit
-# RUN mkdir $CKAN_HOME/src/ckanext-dcatapit/
-# ADD ./ckanext-dcatapit/ $CKAN_HOME/src/ckanext-dcatapit/
-
-# Checkout a different version:
-#    cd ckanext-dcatapit
-#    git checkout YOUR_PREFERRED_TAG_OR_BRANCH
-#    cd ..
 RUN pushd $CKAN_HOME/src \
     && git clone "https://github.com/geosolutions-it/ckanext-dcatapit.git" \
     && popd
 RUN pip install -e $CKAN_HOME/src/ckanext-dcatapit/
 RUN pip install -r $CKAN_HOME/src/ckanext-dcatapit/dev-requirements.txt
 
-# TEST Install ckanext-ldap
+# Test install ckanext-ldap
 RUN mkdir $CKAN_HOME/src/ckanext-ldap/
 ADD ./ckanext-ldap/ $CKAN_HOME/src/ckanext-ldap/
-# RUN . /usr/lib/ckan/default/bin/activate
 RUN pip install -e $CKAN_HOME/src/ckanext-ldap/
 RUN pip install -r $CKAN_HOME/src/ckanext-ldap/requirements.txt
 
-## Install ckanext-spatial
-# RUN mkdir $CKAN_HOME/src/ckanext-spatial/
-# ADD ./ckanext-spatial/ $CKAN_HOME/src/ckanext-spatial/
+# Install ckanext-spatial
 RUN pushd $CKAN_HOME/src \
     && git clone "https://github.com/geosolutions-it/ckanext-spatial.git" \
     && cd ckanext-spatial \
@@ -118,7 +120,7 @@ RUN pushd $CKAN_HOME/src \
 RUN pip install -e $CKAN_HOME/src/ckanext-spatial/
 RUN pip install -r $CKAN_HOME/src/ckanext-spatial/pip-requirements.txt
 
-## Install ckanext-spatial
+# Install ckanext-spatial
 RUN mkdir $CKAN_HOME/src/ckanext-multilang/
 ADD ./ckanext-multilang/ $CKAN_HOME/src/ckanext-multilang/
 RUN pip install -e $CKAN_HOME/src/ckanext-multilang/
@@ -126,14 +128,12 @@ RUN pip install -e $CKAN_HOME/src/ckanext-multilang/
 RUN chown ckan:ckan "${CKAN_HOME}" -R \
     && chown ckan:ckan "${CKAN_CONFIG}" -R \
     && chown ckan:ckan "${CKAN_STORAGE_PATH}" -R
-    # && chown ckan:ckan "${CKAN_LOG_DIR}" -R \
 
 RUN chmod 755 "${CKAN_HOME}" -R \
     && chmod 755 "${CKAN_CONFIG}" -R \
     && chmod 755 "${CKAN_STORAGE_PATH}" -R
-    # && chmod 755 "${CKAN_LOG_DIR}" -R \
 
-# SetUp EntryPoint
+# Setup entrypoint
 COPY ./ckan-entrypoint.sh /
 RUN chmod +x /ckan-entrypoint.sh
 ENTRYPOINT ["/ckan-entrypoint.sh"]
@@ -141,8 +141,6 @@ ENTRYPOINT ["/ckan-entrypoint.sh"]
 # Add startup scripts
 ADD ./ckan-init.sh /
 RUN chmod +x /ckan-init.sh
-ADD ./wait-for-services.sh /
-RUN chmod +x /wait-for-services.sh
 ADD ./harvest_fetch_and_gather.sh /
 RUN chmod +x /harvest_fetch_and_gather.sh
 ADD ./periodic-harvest.sh /
@@ -151,10 +149,9 @@ RUN chmod +x /periodic-harvest.sh
 # Volumes
 VOLUME ["/etc/ckan/default"]
 VOLUME ["/var/lib/ckan"]
-# VOLUME ["/var/log/ckan"]
 
+# Set default user and work directory
 USER ckan
-EXPOSE 5000
-
 WORKDIR "${CKAN_CONFIG}"
-# CMD ["paster","serve","ckan.ini"]
+
+EXPOSE 5000

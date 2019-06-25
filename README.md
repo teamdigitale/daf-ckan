@@ -1,10 +1,10 @@
-# Data & Analytics Framework (DAF) CKAN
+# CKAN for Piattaforma Digitale Nazionale Dati (PDND) - previously DAF
 
-CKAN is a powerful data management system that makes data accessible – by providing tools to streamline publishing, sharing, finding and using data. CKAN is a key component consumed by the DAF project.
+CKAN is a powerful data management system that makes data accessible – by providing tools to streamline publishing, sharing, finding and using data. CKAN is a key component consumed by the PDND project.
 
-## What is the Data & Analytics Framework (DAF)?
+## What is PDND?
 
-More informations about the DAF can be found on the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
+More informations about the PDND can be found at the [Digital Transformation Team website](https://teamdigitale.governo.it/it/projects/daf.htm)
 
 ## Tools references
 
@@ -14,15 +14,102 @@ The tools used in this repository are
 
 ## CKAN components
 
-* **CKAN** the tool included in this repository
+* **CKAN** version 2.6.4. What's inside this repository.
 
-* **Solr** (packeged for CKAN and with some customizations), available [here](https://github.com/teamdigitale/daf-ckan-solr)
+* **Solr** version 6.2, packaged for CKAN and with some customizations. Solr code is available [here](https://github.com/teamdigitale/daf-ckan-solr).
 
-* **PostgreSQL** version 10.1 is certified to work with the current CKAN distribution. PostgreSQL is pulled in as a dependency from the official Docker repositories (see Docker documentation below).
+* **PostgreSQL** version 10.1, modified for CKAN. The container is available [here](https://hub.docker.com/r/geosolutionsit/dati-ckan-docker/tags). The image is tagged `postgresql-10.1`.
 
-* **Redis** version XX.XX is certified to work with the current CKAN distribution. Redies is automatically pulled in as a dependency from the official Docker repositories (see Docker documentation below).
+* **Redis** version 5.0.5. Redis is automatically pulled in as a dependency from its [official Docker repository](https://hub.docker.com/_/redis).
 
-## CKAN 2.6.2 extensions reference
+## Environment variables
+
+The following environment variables are mandatory and should be set in order to deploy CKAN. The `docker-compose.yaml` file in this repository applies some exemplar values, to be used for demos and local tests.
+
+### General variables
+
+* CKAN_DEBUG *(format: {"true"|"false"})* - Whether to activate or not the debug log messages. It should always be false for production environments.
+
+* CKAN_SITE_URL - The base URL of your CKAN deployment.
+
+* CKAN_ADMIN_EMAIL - The email address of the local admin user.
+
+* CKAN_ADMIN_USERNAME - The user name of the local admin user.
+
+* CKAN_ADMIN_PASSWORD - The password of the local admin user.
+
+### Database variables
+
+* CKAN_DB_HOST - The host name of the CKAN PostgreSQL database.
+
+* CKAN_DB_PORT - The port of the CKAN PostgreSQL database.
+
+* CKAN_DB_USER - The user name of the CKAN PostgreSQL database.
+
+* PGPASSWORD - The password of the CKAN PostgreSQL database.
+
+* CKAN_SQLALCHEMY_URL *(format: {postgresql://{CKAN_DB_USER}:{PGPASSWORD}@{CKAN_DB_HOST}:{CKAN_DB_PORT}/})* - The connection string to your PostgreSQL database.
+
+### Redis variables
+
+* CKAN_REDIS_HOST - The host name of your Redis service.
+
+* CKAN_REDIS_PORT - The port of your Redis service.
+
+* CKAN_REDIS_URL *(format: redis://{CKAN_REDIS_HOST}:/{CKAN_REDIS_PORT})* - The full address of the Redis service.
+
+### Solr variables
+
+* CKAN_SOLR_HOST - The host name of the Solr service.
+
+* CKAN_SOLR_PORT - The port of the Solr service.
+
+* CKAN_SOLR_URL *(format: http://{CKAN_SOLR_HOST}:{CKAN_SOLR_PORT}/solr/ckan)* - The full URL of the Solr service.
+
+### LDAP/FreeIPA variables
+
+This version of CKAN is already configured to work with a FreeIPA server. The following parameters should be customized in order to make the integration work.
+
+* CKAN_LDAP_URI *(format: ldap://{LDAP_SERVER_HOST_NAME}:{LDAP_SERVER_PORT})* - the full URI of the LDAP service.
+
+* CKAN_LDAP_AUTH_DN *(format: uid={LDAP_ADMIN_USER},cn=users,cn=accounts,dc={YOUR},dc={DOMAIN})* - The LDAP admin user allowed to bind to the domain.
+
+* CKAN_LDAP_AUTH_PASSWORD - The password of the admin user, allowed to bind to the domain.
+
+* CKAN_LDAP_BASE_DN *(format: cn=users,cn=accounts,dc={YOUR},dc={DOMAIN})* - The CN of the LDAP users.
+
+## How to build and test CKAN
+
+In this repository, CKAN and its related tools are redistributed as a set of Docker containers interacting with one each other.
+
+The `dockerfile` and the `docker-compose.yaml` files are in the root of this repository.
+
+To build the local test environment (build the CKAN container and download dependencies) run:
+
+```shell
+docker-compose up -d
+```
+
+>NOTE: the `docker-compose.yaml` file sets different environment variables that could be used to adapt and customized many platform functionalities.
+
+Then, access the CKAN GUI in a browser at `http://localhost:5000`.
+
+The following default credentials can be used to access the portal
+
+```
+Username: ckanadmin
+Password: ckanpassword
+```
+
+> NOTE: Credentials should be changed after the first login.
+
+To bring down the test environment and remove the containers use
+
+```shell
+docker-compose down
+```
+
+## CKAN 2.6.4 extensions reference
 
 ```
 0   "stats"
@@ -41,37 +128,8 @@ The tools used in this repository are
 13  "dcatapit_harvester"
 ```
 
-## How to build and test CKAN
-
-In this repository, CKAN and its related tools are redistributed as a set of Docker containers interacting with one each other.
-
-The tools needed to build the `CKAN container` and a working local test environment are provided in the `docker` folder of this repository. The commands below should be run from such folder.
-
-Build the local test environment (build the CKAN container and download dependencies)
-
-```shell
-docker-compose up -d
-```
-
-Load "ckan vocabulary" in ckan container:
-
-```shell
-docker exec -it ckandcat /bin/bash -c ./ckan-vocabulary.sh
-```
-
-Access ckan server with browser at this link `http://localhost:5000`
-
-The following default credentials can be used to access the portal
-
-```
-User: ckanadmin
-Password: ckanpassword
-```
-
-> NOTE: Credentials should be changed after the first login.
-
 ## How to contribute
 
 Contributions are welcome. Feel free to open issues and submit a pull request at any time!
 
-This is a temporary repository, still maintained because consumed by the production DAF environment. Anyway, an ongoing development work is moving on [here](https://github.com/italia/dati-ckan-docker).
+This repository is very specific to the PDND project that could be used as an example. Meanwhile, the community is working on an generic, [redistributable version](https://github.com/italia/dati-ckan-docker).
