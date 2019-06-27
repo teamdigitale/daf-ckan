@@ -51,4 +51,4 @@ class LDAPCommand(CkanCommand):
         try:
             toolkit.get_action('organization_show')(self.context, {'id': organization_id})
         except logic.NotFound:
-            toolkit.get_action('organization_create')(self.context, {'id': organization_id, 'name': organization_id})
+            toolkit.get_action('organization_create')(self.context, {'id': organization_id, 'name': organization_id, 'identifier': organization_id})
