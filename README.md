@@ -16,7 +16,7 @@ The tools used in this repository are
 
 ## CKAN components
 
-* **CKAN** version 2.6.4. What's inside this repository.
+* **CKAN** version 2.6.7. What's inside this repository.
 
 * **Solr** version 6.2, packaged for CKAN and with some customizations. Solr code is available [here](https://github.com/teamdigitale/daf-ckan-solr).
 
