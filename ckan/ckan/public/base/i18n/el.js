@@ -2,7 +2,7 @@
   "": {
     "domain": "ckan",
     "lang": "el",
-    "plural-forms": "nplurals=2; plural=(n != 1);"
+    "plural-forms": "nplurals=2; plural=(n != 1)"
   },
   "An Error Occurred": [
     null,
@@ -143,6 +143,10 @@
   "Upload a file on your computer": [
     null,
     "Μεταφόρτωση αρχείου στον υπολογιστή σας"
+  ],
+  "You are uploading a file. Are you sure you want to navigate away and stop this upload?": [
+    null,
+    "Πραγματοποιείτε μεταφόρτωση αρχείου. Είστε σίγουροι ότι θέλετε να πλοηγηθείτε σε κάτι άλλο και να σταματήσετε αυτή τη μεταφόρτωση;"
   ],
   "error loading view": [
     null,
