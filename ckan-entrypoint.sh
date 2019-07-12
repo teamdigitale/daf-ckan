@@ -113,6 +113,10 @@ ckan_configure () {
   nohup /ckan-init.sh &> "${CKAN_LOG_DIR}"/ckan_init &
 }
 
+schedule_harvesting_cron_jobs () {
+  nohup busybox crond -f &
+}
+
 ckan_serve () {
   paster serve "${config}"
 }

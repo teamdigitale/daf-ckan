@@ -40,6 +40,10 @@ Contributions are welcome. Feel free to [open issues](./issues) and submit a [pu
 
 * CKAN_ADMIN_PASSWORD - The password of the local admin user.
 
+* CKAN_HARVEST_ALL_CRON - The crontab schedule related configuration for the harvest of all sources (i.e. `"1 * * * *"`)
+
+* CKAN_HARVEST_STATUS_CRON - The crontab schedule related configuration for the harvest status check (i.e. `"1 * * * *"`)
+
 ### Database variables
 
 * CKAN_DB_HOST - The host name of the CKAN PostgreSQL database.

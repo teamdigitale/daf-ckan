@@ -10,6 +10,8 @@ services:
     image: teamdigitale/daf-ckan
     environment:
       CKAN_DEBUG: "true"
+      CKAN_HARVEST_ALL_CRON: "0 1 * * *"
+      CKAN_HARVEST_STATUS_CRON: "30 * * * *"
       CKAN_SITE_URL: http://localhost:5000
       CKAN_ADMIN_EMAIL: ckanadmin@mail.com
       CKAN_ADMIN_USERNAME: ckanadmin
