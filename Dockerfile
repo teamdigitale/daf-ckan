@@ -58,7 +58,7 @@ RUN chown -R ckan:ckan $CKAN_STORAGE_PATH
 # Install BusyBox and configure harvest cron jobs
 RUN cd /opt && \
     git clone git://busybox.net/busybox.git
-RUN chown -R ckan:ckan /opt/busyboxopt
+RUN chown -R ckan:ckan /opt/busybox
 RUN cd /opt/busybox && make defconfig 
 RUN cd /opt/busybox && make
 RUN ln -s /opt/busybox/busybox /usr/local/bin/busybox
