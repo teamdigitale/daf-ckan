@@ -54,17 +54,17 @@ RUN chown -R ckan:ckan $CKAN_HOME
 RUN chown -R ckan:ckan $CKAN_LOG_DIR
 RUN chown -R ckan:ckan $CKAN_CONFIG
 RUN chown -R ckan:ckan $CKAN_STORAGE_PATH
-
+ 
 # Install BusyBox and configure harvest cron jobs
 RUN cd /opt && \
     git clone git://busybox.net/busybox.git
-RUN chown -R ckan:ckan /opt/busybox
-RUN make defconfig
-RUN make
+RUN chown -R ckan:ckan /opt/busyboxopt
+RUN cd /opt/busybox && make defconfig 
+RUN cd /opt/busybox && make
 RUN ln -s /opt/busybox/busybox /usr/local/bin/busybox
 RUN mkdir -p /var/spool/cron/crontabs/
-RUN echo -e "${CKAN_HARVEST_ALL_CRON} paster --plugin=ckanext-harvest harvester job-all --config ${CKAN_CONFIG}/ckan.ini" >> /var/spool/cron/crontabs/ckan
-RUN echo -e "${CKAN_HARVEST_STATUS_CRON} paster --plugin=ckanext-harvest harvester run --config ${CKAN_CONFIG}/ckan.ini" >> /var/spool/cron/crontabs/ckan
+RUN echo -e "0 1 * * * paster --plugin=ckanext-harvest harvester job-all --config ${CKAN_CONFIG}/ckan.ini" >> /var/spool/cron/crontabs/root
+RUN echo -e "30 * * * * paster --plugin=ckanext-harvest harvester run --config ${CKAN_CONFIG}/ckan.ini" >> /var/spool/cron/crontabs/root
 
 # Temporary fix for dependencies
 RUN pip install pytz diagnostics
@@ -164,7 +164,7 @@ VOLUME ["/etc/ckan/default"]
 VOLUME ["/var/lib/ckan"]
 
 # Set default user and work directory
-USER ckan
+#USER ckan
 WORKDIR "${CKAN_CONFIG}"
 
 EXPOSE 5000

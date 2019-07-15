@@ -133,6 +133,8 @@ init_db
 
 harvesting
 
+schedule_harvesting_cron_jobs
+
 ckan_configure
 
 ckan_serve
