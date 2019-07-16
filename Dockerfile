@@ -54,12 +54,12 @@ RUN chown -R ckan:ckan $CKAN_HOME
 RUN chown -R ckan:ckan $CKAN_LOG_DIR
 RUN chown -R ckan:ckan $CKAN_CONFIG
 RUN chown -R ckan:ckan $CKAN_STORAGE_PATH
- 
+
 # Install BusyBox and configure harvest cron jobs
 RUN cd /opt && \
     git clone git://busybox.net/busybox.git
 RUN chown -R ckan:ckan /opt/busybox
-RUN cd /opt/busybox && make defconfig 
+RUN cd /opt/busybox && make defconfig
 RUN cd /opt/busybox && make
 RUN ln -s /opt/busybox/busybox /usr/local/bin/busybox
 RUN mkdir -p /var/spool/cron/crontabs/
@@ -133,7 +133,7 @@ RUN pushd $CKAN_HOME/src \
 RUN pip install -e $CKAN_HOME/src/ckanext-spatial/
 RUN pip install -r $CKAN_HOME/src/ckanext-spatial/pip-requirements.txt
 
-# Install ckanext-spatial
+# Install ckanext-multilang
 RUN mkdir $CKAN_HOME/src/ckanext-multilang/
 ADD ./ckanext-multilang/ $CKAN_HOME/src/ckanext-multilang/
 RUN pip install -e $CKAN_HOME/src/ckanext-multilang/
