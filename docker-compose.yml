@@ -35,20 +35,20 @@ services:
       - solr
 
   solr:
-    image: teamdigitale/daf-ckan-solr:0.1.0
-    container_name: daf-ckan-solr
+    image: teamdigitale/pdnd-ckan-solr:0.1.0
+    container_name: pdnd-ckan-solr
     stdin_open: true
     tty: true
 
   redis:
     image: redis:5.0.5
-    container_name: daf-ckan-redis
+    container_name: pdnd-ckan-redis
     stdin_open: true
     tty: true
 
   db:
     image: geosolutionsit/dati-ckan-docker:postgresql-10.1
-    container_name: daf-ckan-db
+    container_name: pdnd-ckan-db
     environment:
       POSTGRES_USER: ckan
       POSTGRES_PASSWORD: ckan
