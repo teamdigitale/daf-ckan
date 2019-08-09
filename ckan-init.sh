@@ -23,9 +23,6 @@ config="${CKAN_CONFIG}/ckan.ini"
 paster --plugin=ckan user add "${CKAN_ADMIN_USERNAME}" email="${CKAN_ADMIN_EMAIL}" password="${CKAN_ADMIN_PASSWORD}" --config "${config}"
 paster --plugin=ckan sysadmin add "${CKAN_ADMIN_USERNAME}" --config "${config}"
 
-# Setup LDAP org
-paster --plugin=ckanext-ldap ldap setup-org -c "${config}"
-
 # Load Vocabulary
 paster --plugin=ckanext-dcatapit vocabulary load --url http://publications.europa.eu/resource/distribution/language/rdf/skos_core/languages-skos.rdf --name languages --config "$config"
 paster --plugin=ckanext-dcatapit vocabulary load --url http://publications.europa.eu/resource/distribution/data-theme/rdf/skos_core/data-theme-skos.rdf --name eu_themes --config "$config"

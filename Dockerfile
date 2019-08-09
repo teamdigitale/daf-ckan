@@ -18,7 +18,6 @@ RUN yum -y install gdal-python python-pip python-imaging python-virtualenv \
                    python-pylons python-repoze-who python-repoze-who-plugins-sa \
                    python-repoze-who-testutil python-repoze-who-friendlyform \
                    python-tempita python-zope-interface policycoreutils-python
-RUN yum -y install openldap-devel
 RUN yum -y install gettext
 RUN yum -y install wget
 
@@ -117,12 +116,6 @@ RUN pushd $CKAN_HOME/src \
     && popd
 RUN pip install -e $CKAN_HOME/src/ckanext-dcatapit/
 RUN pip install -r $CKAN_HOME/src/ckanext-dcatapit/dev-requirements.txt
-
-# Test install ckanext-ldap
-RUN mkdir $CKAN_HOME/src/ckanext-ldap/
-ADD ./ckanext-ldap/ $CKAN_HOME/src/ckanext-ldap/
-RUN pip install -e $CKAN_HOME/src/ckanext-ldap/
-RUN pip install -r $CKAN_HOME/src/ckanext-ldap/requirements.txt
 
 # Install ckanext-spatial
 RUN pushd $CKAN_HOME/src \

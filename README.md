@@ -18,7 +18,7 @@ The tools used in this repository are
 
 * **CKAN** version 2.6.7. What's inside this repository.
 
-* **Solr** version 6.2, packaged for CKAN and with some customizations. Solr code is available [here](https://github.com/teamdigitale/daf-ckan-solr).
+* **Solr** version 6.2, packaged for CKAN and with some customizations. Solr code is available [here](https://github.com/teamdigitale/pdnd-ckan-solr).
 
 * **PostgreSQL** version 10.1, modified for CKAN. The container is available [here](https://hub.docker.com/r/geosolutionsit/dati-ckan-docker/tags). The image is tagged `postgresql-10.1`.
 
@@ -67,18 +67,6 @@ Contributions are welcome. Feel free to [open issues](./issues) and submit a [pu
 * CKAN_SOLR_PORT - The port of the Solr service.
 
 * CKAN_SOLR_URL *(format: http://{CKAN_SOLR_HOST}:{CKAN_SOLR_PORT}/solr/ckan)* - The full URL of the Solr service.
-
-### LDAP/FreeIPA variables
-
-This version of CKAN is already configured to work with a FreeIPA server. The following parameters should be customized in order to make the integration work.
-
-* CKAN_LDAP_URI *(format: ldap://{LDAP_SERVER_HOST_NAME}:{LDAP_SERVER_PORT})* - the full URI of the LDAP service.
-
-* CKAN_LDAP_AUTH_DN *(format: uid={LDAP_ADMIN_USER},cn=users,cn=accounts,dc={YOUR},dc={DOMAIN})* - The LDAP admin user allowed to bind to the domain.
-
-* CKAN_LDAP_AUTH_PASSWORD - The password of the admin user, allowed to bind to the domain.
-
-* CKAN_LDAP_BASE_DN *(format: cn=users,cn=accounts,dc={YOUR},dc={DOMAIN})* - The CN of the LDAP users.
 
 ## How to build and test CKAN
 

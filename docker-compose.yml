@@ -6,8 +6,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: daf-ckan
-    image: teamdigitale/daf-ckan
+    container_name: pdnd-ckan
+    image: teamdigitale/pdnd-ckan
     environment:
       CKAN_DEBUG: "true"
       CKAN_SITE_URL: http://localhost:5000
@@ -25,10 +25,6 @@ services:
       CKAN_SOLR_HOST: solr
       CKAN_SOLR_PORT: 8983
       CKAN_SOLR_URL: http://solr:8983/solr/ckan
-      CKAN_LDAP_URI: ldap://my-ldap-srv-host:389
-      CKAN_LDAP_AUTH_DN: uid=admin,cn=users,cn=accounts,dc=my,dc=domain
-      CKAN_LDAP_AUTH_PASSWORD: my-auth-dn-ldap-password
-      CKAN_LDAP_BASE_DN: cn=users,cn=accounts,dc=my,dc=domain
     stdin_open: true
     tty: true
     ports:
