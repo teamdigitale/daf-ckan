@@ -119,9 +119,7 @@ RUN pip install -r $CKAN_HOME/src/ckanext-dcatapit/dev-requirements.txt
 
 # Install ckanext-spatial
 RUN pushd $CKAN_HOME/src \
-    && git clone "https://github.com/geosolutions-it/ckanext-spatial.git" \
-    && cd ckanext-spatial \
-    && git checkout "188_clean_tags" \
+    && git clone "https://github.com/italia/ckanext-spatial.git" \
     && popd
 RUN pip install -e $CKAN_HOME/src/ckanext-spatial/
 RUN pip install -r $CKAN_HOME/src/ckanext-spatial/pip-requirements.txt

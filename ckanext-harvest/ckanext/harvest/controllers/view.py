@@ -14,8 +14,7 @@ from ckan import model
 
 import ckan.plugins as p
 import ckan.lib.helpers as h, json
-from ckan.lib.base import BaseController, c, \
-                          request, response, render, abort
+from ckan.lib.base import BaseController, c, request, response, render, abort
 
 from ckanext.harvest.logic import HarvestJobExists, HarvestSourceInactiveError
 from ckanext.harvest.plugin import DATASET_TYPE_NAME
@@ -37,7 +36,7 @@ class ViewController(BaseController):
         try:
             context = {'model':model, 'user':c.user}
 
-            context['clear_source'] = request.params.get('clear', '').lower() in (u'true', u'1')
+            context['clear_source'] = request.params.get('clear', '').lower() in (u'true', u'1',)
 
             p.toolkit.get_action('harvest_source_delete')(context, {'id':id})
 
